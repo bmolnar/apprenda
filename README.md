@@ -22,7 +22,7 @@ $ gradlew.bat build
 
 ## Unit tests
 
-To run (on Windows), run:
+To run unit tests (on Windows), run:
 
 $ gradlew.bat test
 
