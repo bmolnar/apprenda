@@ -1,8 +1,9 @@
+package net.diylabs.apprenda;
+
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import net.diylabs.apprenda.Rectangle;
 
 public class RectangleTest
 {
@@ -36,8 +37,6 @@ public class RectangleTest
   }
 
 
-
-
   //
   // Rectangle.intersection() tests
   //
@@ -50,11 +49,11 @@ public class RectangleTest
   @Test
   public void testPointIntersection()
   {
-    Rectangle northwest = new Rectangle(0, 0, 100, 100);
-    Rectangle southeast = new Rectangle(100, 100, 100, 100);
+    Rectangle topleft = new Rectangle(0, 0, 100, 100);
+    Rectangle btmright = new Rectangle(100, 100, 100, 100);
     Rectangle expected = new Rectangle(100, 100, 0, 0);
-    assertEquals(northwest.intersection(southeast), expected);
-    assertEquals(southeast.intersection(northwest), expected);
+    assertEquals(topleft.intersection(btmright), expected);
+    assertEquals(btmright.intersection(topleft), expected);
   }
   @Test
   public void testVerticalLineIntersection()
@@ -73,8 +72,6 @@ public class RectangleTest
     Rectangle expected = new Rectangle(100, 25, 0, 50);
     assertEquals(left.intersection(right), expected);
     assertEquals(right.intersection(left), expected);
-
-    assertEquals(right.leftSide(), expected);
   }
   @Test
   public void testHorizontalLineIntersection()
@@ -88,32 +85,51 @@ public class RectangleTest
   @Test
   public void testRectangularIntersection()
   {
-    Rectangle northwest = new Rectangle(0, 0, 200, 200);
-    Rectangle southeast = new Rectangle(100, 100, 200, 200);
+    Rectangle topleft = new Rectangle(0, 0, 200, 200);
+    Rectangle btmright = new Rectangle(100, 100, 200, 200);
     Rectangle expected = new Rectangle(100, 100, 100, 100);
-    assertEquals(northwest.intersection(southeast), expected);
-    assertEquals(southeast.intersection(northwest), expected);
+    assertEquals(topleft.intersection(btmright), expected);
+    assertEquals(btmright.intersection(topleft), expected);
   }
   @Test
   public void testDisjointIntersection()
   {
-    Rectangle northwest = new Rectangle(0, 0, 100, 100);
-    Rectangle southeast = new Rectangle(200, 200, 100, 100);
+    Rectangle topleft = new Rectangle(0, 0, 100, 100);
+    Rectangle btmright = new Rectangle(200, 200, 100, 100);
     Rectangle expected = new Rectangle(200, 200, -100, -100);
-    assertEquals(northwest.intersection(southeast), expected);
-    assertEquals(southeast.intersection(northwest), expected);
+    assertEquals(topleft.intersection(btmright), expected);
+    assertEquals(btmright.intersection(topleft), expected);
   }
   @Test
-  public void testDisjointIntersectionSouthwestAndNortheast()
+  public void testDisjointIntersectionBtmleftAndTopright()
   {
-    Rectangle southwest = new Rectangle(0, 200, 100, 100);
-    Rectangle northeast = new Rectangle(200, 0, 100, 100);
+    Rectangle btmleft = new Rectangle(0, 200, 100, 100);
+    Rectangle topright = new Rectangle(200, 0, 100, 100);
     Rectangle expected = new Rectangle(200, 200, -100, -100);
-    assertEquals(southwest.intersection(northeast), expected);
-    assertEquals(northeast.intersection(southwest), expected);
+    assertEquals(btmleft.intersection(topright), expected);
+    assertEquals(topright.intersection(btmleft), expected);
   }
 
 
+  //
+  // Rectangle.intersects() tests
+  //
+  @Test
+  public void testPointInersectionIntersects()
+  {
+    Rectangle topleft = new Rectangle(0, 0, 100, 100);
+    Rectangle btmright = new Rectangle(100, 100, 100, 100);
+    assertTrue(topleft.intersects(btmright));
+    assertTrue(btmright.intersects(topleft));
+  }
+  @Test
+  public void testDisjointRectanglesDoNotIntersect()
+  {
+    Rectangle btmleft = new Rectangle(0, 200, 100, 100);
+    Rectangle topright = new Rectangle(200, 0, 100, 100);
+    assertFalse(btmleft.intersects(topright));
+    assertFalse(topright.intersects(btmleft));
+  }
 
 
   //
@@ -139,7 +155,6 @@ public class RectangleTest
     Rectangle inside = new Rectangle(1, 1, 98, 98);
     assertFalse(inside.contains(outside));
   }
-
 
 
   //
